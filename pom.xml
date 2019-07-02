@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 作为聚合项目和根项目,对子模块使用的依赖版本进行统一管理,同时可以对所有子模块进行统一编译 -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fun.billon</groupId>
+    <artifactId>root</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>root</name>
+    <url>http://maven.apache.org</url>
+
+    <!-- 该聚合项目所包含的子模块 -->
+    <modules>
+        <!-- 通用模块(common)-->
+        <module>common</module>
+        <!-- 消息队列模块api(mq-api) -->
+        <module>mq-api</module>
+        <!-- billon-ms-spring-boot-starter -->
+        <module>billon-ms-spring-boot-starter</module>
+        <!-- 服务注册发现服务(eureka) -->
+        <module>eureka</module>
+        <!-- 权限模块api(auth-api) -->
+        <module>auth-api</module>
+        <!-- 权限模块rest服务(auth-rest) -->
+        <module>auth-rest</module>
+        <!-- 用户模块api(member-api) -->
+        <module>member-api</module>
+        <!-- 用户模块rest服务(member-rest) -->
+        <module>member-rest</module>
+        <!-- 论坛模块api(forum-api) -->
+        <module>forum-api</module>
+        <!-- 论坛模块rest服务(forum-rest) -->
+        <module>forum-rest</module>
+        <!-- im模块api(im-api) -->
+        <module>im-api</module>
+        <!-- im模块rest服务(im-rest) -->
+        <module>im-rest</module>
+        <!-- app接口服务(app-web) -->
+        <module>app-web</module>
+        <!-- master接口服务(master-web) -->
+        <module>master-web</module>
+    </modules>
+
+    <!-- 属性定义,定义编译环境以及第三方依赖的版本 -->
+    <properties>
+        <!-- 阿里云docker服务器id,需要在~/.m2/settings.xml中添加server节点 -->
+        <docker.registry.aliyun.server.id>docker-aliyun</docker.registry.aliyun.server.id>
+        <!-- 阿里云docker注册服务器地址 -->
+        <docker.registry.aliyun>registry.cn-beijing.aliyuncs.com</docker.registry.aliyun>
+        <!-- 阿里云docker仓库地址 -->
+        <docker.repository.aliyun>registry.cn-beijing.aliyuncs.com/billon</docker.repository.aliyun>
+        <!-- docker仓库地址 -->
+        <docker.repository>billon</docker.repository>
+        <!-- mvn test插件版本 -->
+        <plugin.surefire.version>2.20.1</plugin.surefire.version>
+        <!-- 控制台输出格式，解決mvn test控制台乱码 -->
+        <plugin.surefire.argLine>-Dfile.encoding=UTF-8</plugin.surefire.argLine>
+        <!-- 编译插件的版本(maven-compiler-plugin) -->
+        <plugin.compiler.version>3.6.1</plugin.compiler.version>
+        <!-- springboot打包插件的版本(spring-boot-maven-plugin) -->
+        <plugin.spring.boot.version>1.5.9.RELEASE</plugin.spring.boot.version>
+        <!-- docker插件版本(docker-maven-plugin) -->
+        <plugin.docker.maven.version>0.4.14</plugin.docker.maven.version>
+        <!-- 字符编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- jdk编译版本 -->
+        <project.build.version>1.8</project.build.version>
+        <!-- springboot版本 -->
+        <spring.boot.dependencies.version>2.1.3.RELEASE</spring.boot.dependencies.version>
+        <!-- springcloud版本 -->
+        <spring.cloud.dependencies.version>Greenwich.RELEASE</spring.cloud.dependencies.version>
+        <!-- mybatis-spring-boot-starter版本 -->
+        <mybatis.spring.boot.starter.version>1.3.1</mybatis.spring.boot.starter.version>
+        <!-- druid-spring-boot-starter版本 -->
+        <druid.spring.boot.starter.version>1.1.14</druid.spring.boot.starter.version>
+        <!-- druid版本 -->
+        <druid.version>1.1.0</druid.version>
+        <!-- fastjson版本 -->
+        <fastjson.version>1.2.41</fastjson.version>
+        <!-- aliyun-java-sdk-sts版本 -->
+        <aliyun.sdk.sts.version>2.1.6</aliyun.sdk.sts.version>
+        <!-- aliyun-java-sdk-core版本 -->
+        <aliyun.sdk.core.version>2.1.7</aliyun.sdk.core.version>
+        <!-- aliyun-java-sdk-oss版本 -->
+        <aliyun.sdk.oss.version>2.8.3</aliyun.sdk.oss.version>
+        <!-- pinyin4j版本 -->
+        <pinyin4j.version>2.5.1</pinyin4j.version>
+        <!-- xstream版本 -->
+        <xstream.version>1.4.10</xstream.version>
+        <!-- jwt版本 -->
+        <jwt.version>3.3.0</jwt.version>
+        <!-- kaptcha版本 -->
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <!-- poi-ooxml版本 -->
+        <poi.ooxml.version>4.0.0</poi.ooxml.version>
+        <!-- netty-socketio版本 -->
+        <netty.socketio.version>1.7.16</netty.socketio.version>
+        <!-- io.zipkin.version版本 -->
+        <io.zipkin.version>2.3.1</io.zipkin.version>
+        <!-- commons.beanutils版本 -->
+        <commons.beanutils.version>1.9.3</commons.beanutils.version>
+    </properties>
+
+    <!-- 编译环境配置，所有项目必须使用同样的编译环境-->
+    <build>
+        <!-- 所有子模块公用的插件 -->
+        <plugins>
+            <!--maven编译插件maven-compiler-plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${plugin.compiler.version}</version>
+                <configuration>
+                    <!-- 编译版本 -->
+                    <source>${project.build.version}</source>
+                    <target>${project.build.version}</target>
+                    <!-- 编码方式 -->
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <!-- 编译参数 -->
+                    <compilerArgs>
+                        <!-- jdk1.8加上该编译参数，可以通过反射获取方法的名称 -->
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- 解决maven test命令时console出现中文乱码乱码 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${plugin.surefire.version}</version>
+                <configuration>
+                    <forkMode>once</forkMode>
+                    <argLine>${plugin.surefire.argLine}</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <!-- 定义插件版本，子模块使用该插件的话需要明确指定 -->
+        <pluginManagement>
+            <plugins>
+                <!-- spring-boot-maven-plugin,springboot项目打包插件 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${plugin.spring.boot.version}</version>
+                </plugin>
+
+                <!-- docker-maven-plugin,docker插件 -->
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${plugin.docker.maven.version}</version>
+                    <configuration>
+                        <serverId>${docker.registry.aliyun.server.id}</serverId>
+                        <registryUrl>${docker.registry.aliyun}</registryUrl>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- 依赖项管理,根项目定义依赖的版本,子项目按需引入依赖,版本由根项目统一控制 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- springboot依赖项 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- springcloud依赖项 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- mybatis-spring-boot-starter -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.spring.boot.starter.version}</version>
+            </dependency>
+
+            <!-- druid-spring-boot-starter -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.spring.boot.starter.version}</version>
+            </dependency>
+
+            <!-- jdbc数据源 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- aliyun-java-sdk-sts -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-sts</artifactId>
+                <version>${aliyun.sdk.sts.version}</version>
+            </dependency>
+
+            <!-- aliyun-java-sdk-core -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun.sdk.core.version}</version>
+            </dependency>
+
+            <!-- pinyin4j -->
+            <dependency>
+                <groupId>com.belerweb</groupId>
+                <artifactId>pinyin4j</artifactId>
+                <version>${pinyin4j.version}</version>
+            </dependency>
+
+            <!-- xstream -->
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+
+            <!-- java-jwt -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <!-- kaptcha -->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+
+            <!-- poi -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.ooxml.version}</version>
+            </dependency>
+
+            <!-- netty-socketio -->
+            <dependency>
+                <groupId>com.corundumstudio.socketio</groupId>
+                <artifactId>netty-socketio</artifactId>
+                <version>${netty.socketio.version}</version>
+            </dependency>
+
+            <!-- zipkin-autoconfigure-collector-rabbitmq -->
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-autoconfigure-collector-rabbitmq</artifactId>
+                <version>${io.zipkin.version}</version>
+            </dependency>
+
+            <!-- zipkin-autoconfigure-storage-elasticsearch-http -->
+            <dependency>
+                <groupId>io.zipkin.java</groupId>
+                <artifactId>zipkin-autoconfigure-storage-elasticsearch-http</artifactId>
+                <version>${io.zipkin.version}</version>
+            </dependency>
+
+            <!-- commons-beanutils -->
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons.beanutils.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- maven:deploy相关配置 -->
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <name>Internal Release Repository</name>
+            <url>http://localhost:8090/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>Internal Snapshot Repository</name>
+            <url>http://localhost:8090/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

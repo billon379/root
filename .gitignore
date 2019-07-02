@@ -1,0 +1,5 @@
+####忽略targe目录#######
+/target
+.idea
+*.iml
+*/
