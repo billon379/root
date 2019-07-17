@@ -4,7 +4,7 @@
 @ECHO OFF
 
 ::定义docker仓库地址
-SET docker_push_registry=billon/
+SET docker_push_registry=registry.cn-beijing.aliyuncs.com/billon379/
 
 ::读取pom中的<module>.*</module>,遍历module当module下存在pom.xml及Dockerfile时才执行docker:push
 ::就是启用变量延迟,我们可以形象的认为是启用了"对变量动态捕获扩展变化".

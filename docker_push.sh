@@ -3,7 +3,7 @@
 #读取pom中的module,执行docker:push
 
 #定义docker仓库地址
-docker_push_registry=billon/
+docker_push_registry=registry.cn-beijing.aliyuncs.com/billon379/
 
 #读取pom中的<module>.*</module>,遍历module,当module下存在pom.xml及Dockerfile时才执行docker:push
 for var in `grep "<module>.*</module>" pom.xml | sed 's/<[a-z]*>//g' | sed 's/<\/[a-z]*>//g'`
