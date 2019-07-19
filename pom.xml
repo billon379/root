@@ -50,7 +50,7 @@
         <!-- 阿里云docker注册服务器地址 -->
         <docker.registry.aliyun>registry.cn-beijing.aliyuncs.com</docker.registry.aliyun>
         <!-- 阿里云docker仓库地址 -->
-        <docker.repository.aliyun>registry.cn-beijing.aliyuncs.com/billon</docker.repository.aliyun>
+        <docker.repository.aliyun>registry.cn-beijing.aliyuncs.com/billon379</docker.repository.aliyun>
         <!-- docker仓库地址 -->
         <docker.repository>billon</docker.repository>
         <!-- mvn test插件版本 -->
